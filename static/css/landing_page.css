@@ -1,0 +1,45 @@
+body{
+    background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.377)),url("../images/landing-bg.jpg");
+}
+
+.st{
+    background-color: rgba(0, 0, 0, 0.568);
+}
+
+.appointment-btn-container {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+   z-index: 1;
+}
+
+.make-appointment-btn {
+  
+  text-decoration: none;
+  display: inline-block;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0 56px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 7px;
+  background-color: #0070f3;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  font-size: 16px;
+  box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.make-appointment-btn:hover {
+  background: rgba(22, 122, 236, 0.9);
+  box-shadow: 0 6px 20px rgb(10, 10, 10);
+}
+
+@media (min-width: 768px) {
+  .make-appointment-btn {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}

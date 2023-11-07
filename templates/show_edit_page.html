@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/show_edit_page.css" />
+  </head>
+  <body>
+    <div class="container container-form">
+      <div class="title">Edit Show</div>
+      <form action="update_event?id={{event.event_id}}" method="post">
+        <div class="user__details">
+          <div class="input__box">
+            <span class="details">Event Name</span>
+            <input type="text" id="event_name"  value="{{event.event_name}}"  name="event_name" required />
+          </div>
+          <div class="input__box">
+            <span class="details">Event Date</span>
+            <input type="date" value="{{event.event_date}}"  id="event_date" name="event_date" required />
+          </div>
+          <div class="input__box">
+            <span class="details">Event Time</span>
+            <input
+              type="time"
+              id="event_from_date"
+              value = "{{event.event_from_time}}"
+              name="event_from_date"
+              required
+            />To
+            <input
+              type="time"
+              value = "{{event.event_to_time}}"
+              id="event_to_date"
+              name="event_to_date"
+              required
+            />
+          </div>
+          <div class="input__box">
+            <span class="details">Description</span>
+            <textarea
+              type="email"
+              id="description"
+              name="description"
+              rows="4"
+              cols="50"
+              required
+            >{{event.description}}</textarea>
+          </div>
+          <div class="input__box">
+            <span class="details">Venue Name</span>
+            <select id="venue" name="venue">
+              {%for venue in venues%}
+              <option value="{{venue.venue_id}}" {% if selected_venue == venue.venue_id %}selected{%endif%}>
+                <b>{{venue.venue_name}}</b>,{{venue.address}}
+              </option>
+              {%endfor%}
+            </select>
+          </div>
+          <div class="input__box">
+            <span class="details">Ticket Price</span>
+            <input
+              type="number"
+              value = {{event.event_price}}
+              id="event_price"
+              name="event_price"
+              step="1"
+              required
+            />
+          </div>
+          <div class="button">
+            <input type="submit" value="Update" />
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

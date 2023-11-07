@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curved Seats</title>
+    <script src="../static/js/jquery.min.js"></script>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/seat_selection.css" />
+  </head>
+
+  <form action="/user/seat_selected?id={{event_id}}" method="post">
+<div class="layout">
+  <div class="seat-container">
+        <div>
+          {%for seat_type in booked_status%}
+          {%if(booked_status[seat_type] != None)%}
+        <ul class="row">
+          <li class="seat">
+              <input class="seat-checkbox" type="radio" value="{{seat_type}}" name="seat_type" id="{{seat_type}}"  {% if(seat_type == temp_booked_seats)%}checked{%endif%} {%if(seat_type != temp_booked_seats and isselected )%}disabled{%endif%}/>
+            <label  for="{{seat_type}}">{{seat_type}} - {{booked_status[seat_type]}}</label>
+          </li>
+        </ul>
+        {%endif%}
+        {%endfor%}
+      </div>
+        <div class="stage">
+          <div>
+            <h4>STAGE</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="d-flex flex-column align-items-center text-center m-5">
+    <input type="number" id="person_count" placeholder="Person Count" name="person_count" step="1" max="10" required {%if isselected%} value="{{person_count}}" readonly {%endif%}>
+        
+    {%if not isselected : %}
+      
+      <button class="btn mt-2 con-btn d-none" type="submit">Confirm</button>
+      {%endif%}
+      </div>
+  </form>
+  {%if issoldout%}
+    <h1>Tickets Soldout...!!</h1>
+  {%endif%}
+    {%if (isselected)%}
+
+    <div>
+      <div>
+        <div class="text-center">
+          <h5><b> {{selected_seat_info["event"].event_name}} </b></h5>
+          <p>{{selected_seat_info["event"].description}}</p>
+          <h4>${{selected_seat_info["price"]}}</h4>
+          <p>
+            <b>{{selected_seat_info["venue"].venue_name}}<br /></b>{{selected_seat_info["venue"].address}}
+          </p>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+          <div class="card">
+            <div class="card-title text-center">Ticket Details</div>
+            <div class="card-body m-auto">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <th scope="row">Seleted Seats</th>
+                    <td>:</td>
+                    <td>{{ temp_booked_seats}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Count</th>
+                    <td>:</td>
+                    <td>{{selected_seat_info["count"]}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price per Seat</th>
+                    <td>:</td>
+                    <td>{{selected_seat_info["price"]}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Total price</th>
+                    <td>:</td>
+                    <td>{{selected_seat_info["total_price"]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title text-center">Payment Details</div>
+            <div class="card-body m-auto d-flex align-middle">
+              <div>
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Seleted Seats</th>
+                      <td>:</td>
+                      <td>{{ temp_booked_seats}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Count</th>
+                      <td>:</td>
+                      <td>{{selected_seat_info["count"]}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Price per Seat</th>
+                      <td>:</td>
+                      <td>{{selected_seat_info["price"]}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Total price</th>
+                      <td>:</td>
+                      <td>{{selected_seat_info["total_price"]}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">TAX(18%)</th>
+                      <td>:</td>
+                      <td>
+                        {{(selected_seat_info["total_price"] * tax) | round(2)}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h3>
+                  PAYMENT AMOUNT : $<i
+                    ><span id="total-to-pay"
+                      >{{((selected_seat_info["total_price"] *
+                      tax)+selected_seat_info["total_price"])|round(2)}}</span
+                    ></i
+                  >
+                </h3>
+              </div>
+              <div id="payment-area" class="d-flex align-items-center">
+                <input id="pay-inp" type="number" step="1" />
+                <button id="pay-btn" type="button" class="btn btn-success">
+                  Make Payment
+                </button>
+                <button
+                  id="loading"
+                  class="d-none loading btn btn-success d-flex"
+                >
+                  <div class="ball1"></div>
+                  <div class="ball2"></div>
+                  <div class="ball3"></div>
+                </button>
+                <span id="pay-val-msg"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%endif%}
+    <a class="nav-link scrollto" href="/user">Home</a>
+  </body>
+  <script>
+    $(document).ready(function () {
+      $("input[type='radio'][name=seat_type]").change(()=>{
+
+          $(".con-btn").removeClass('d-none');
+      })
+
+      $("#pay-btn").click(function () {
+        let searchParams = new URLSearchParams(window.location.search);
+        const event_id = searchParams.get("id");
+        const total_to_pay = $("#total-to-pay").text();
+        const pay_inp = $("#pay-inp").val();
+
+        var selected_seat = $('input[type=radio]:checked').val();
+        var person_count = $('#person_count').val();
+
+        const data = {
+          event_id: event_id,
+          selected_seats: selected_seat,
+          person_count:person_count
+        };
+
+        console.log(data);
+
+        if (parseInt(total_to_pay) == pay_inp) {
+          $(this).addClass("d-none");
+          $("#loading").removeClass("d-none");
+          $.ajax({
+            type: "POST",
+            url: "/user/make_order",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (res) {
+              console.log("Success:", res.success);
+              if (res.success) {
+                $("#payment-area").html(
+                  `<div><h2 class='.text-success'>${res.msg}</div></h2><div><a href='/user'>clik here to Home</a></div>`
+                );
+              } else {
+                $("#payment-area").html(
+                  `<h2 class='.text-danger'>${res.msg}</h2><br><a href='/user'>clik here to Home</a>`
+                );
+              }
+            },
+            error: function (error) {
+              console.error("Error:", error);
+            },
+          });
+        } else {
+          $("#pay-val-msg").html("<p>Enter the payable amount....</p>");
+          setTimeout(() => {
+            $("#pay-val-msg").html("");
+          }, 2000);
+        }
+      });
+    });
+  </script>
+</html>
