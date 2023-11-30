@@ -4,10 +4,9 @@ WORKDIR /app
 
 EXPOSE 80
 
-COPY ./requirement.txt /tmp
+COPY . .
 
 RUN pip install --upgrade pip && \
-        pip install -r /tmp/requirement.txt && \
-        rm -rf /tmp/requirement.txt
+        pip install -r requirement.txt
 
 ENTRYPOINT python music_app.py
