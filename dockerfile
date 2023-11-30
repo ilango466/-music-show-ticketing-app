@@ -6,7 +6,7 @@ EXPOSE 80
 
 COPY . .
 
-ls -l
+RUN ls -l
 
 RUN pip install --upgrade pip && \
         pip install -r requirement.txt
