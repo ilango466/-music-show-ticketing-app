@@ -6,9 +6,7 @@ EXPOSE 80
 
 COPY . .
 
-RUN ls -l
-
 RUN pip install --upgrade pip && \
         pip install -r requirement.txt
 
-ENTRYPOINT python music_app.py
+CMD ["python", "music_app.py"]
