@@ -30,5 +30,7 @@ services:
     - ticketweb
    ports:
     - "80:80"
+   networks:
+      - net
 networks:
   net:
