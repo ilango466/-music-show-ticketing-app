@@ -1,14 +1,14 @@
-from flask_mail import Message, Mail
-from  music_app import app
+from flask_mail import Message
+# from  music_app import app
 from traceback import print_exc
 import smtplib
 from email.mime.text import MIMEText
 
-mail = Mail(app)
+#mail = Mail(app)
 
 
 def send_mail(subject, body, reciever):
-
+    from  music_app import app
     # Create a MIMEText object for the email content
     msg = MIMEText(body)
     msg['Subject'] = subject
