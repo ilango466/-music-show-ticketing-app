@@ -287,7 +287,7 @@ def my_bookings():
         return render_template("login_signup_page.html", msg="Login First....!")
 
 with get_connection() as connection:
-        Database.create_tables(connection)
+    Database.create_tables(connection)
     
 if __name__ == "__main__":
     # with get_connection() as connection:
