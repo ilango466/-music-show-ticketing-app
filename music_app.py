@@ -34,7 +34,7 @@ app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS")
 app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL")
 app.config["SESSION_COOKIE_NAME"] = "ticket_thada"
 
-#mail = Mail(app)
+mail = Mail(app)
 
 TAX = float(0.18)
 
