@@ -1,8 +1,11 @@
-from flask_mail import Message
-from  music_app import app, mail
+from flask_mail import Message, Mail
+from  music_app import app
 from traceback import print_exc
 import smtplib
 from email.mime.text import MIMEText
+
+mail = Mail(app)
+
 
 def send_mail(subject, body, reciever):
 
