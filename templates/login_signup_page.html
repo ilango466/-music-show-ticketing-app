@@ -101,7 +101,7 @@ $(document).ready(() => {
           $.ajax({
             type: "POST",
             url: "/verifyuser",
-            data: JSON.stringify({ name: email }),
+            data: JSON.stringify({ email: email }),
             contentType: "application/json",
             success: function (res) {
               console.log(!res.msg)
