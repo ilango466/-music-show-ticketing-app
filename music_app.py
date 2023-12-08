@@ -291,5 +291,5 @@ with get_connection() as connection:
     
 if __name__ == "__main__":
     # with get_connection() as connection:
-        Database.create_tables(connection)
+     #   Database.create_tables(connection)
     app.run(port=5000, debug=True)
