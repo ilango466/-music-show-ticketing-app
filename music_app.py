@@ -10,6 +10,7 @@ from flask import (
     g,
     url_for,
 )
+from flask_mail import Mail
 import src.controllers.controller as ctrl
 from src.models import event
 from src.models import venue
