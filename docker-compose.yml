@@ -1,21 +1,9 @@
 version: '3'
  
 services:
-  ticketdb:
-    container_name: postgres-db
-    image: postgres:14.9
-    ports:
-      - 4040:5432
-    environment:
-      POSTGRES_USER: ilango
-      POSTGRES_PASSWORD: asdf!446
-      POSTGRES_DB: music_show_ticketing
-    networks:
-      - net
-      
   ticketweb:
     container_name: flask-web
-    image: flask-web:v1
+    image: flask-web:rds
     build:
       context : .
     ports:
