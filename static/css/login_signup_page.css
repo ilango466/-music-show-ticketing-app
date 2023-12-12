@@ -6,7 +6,7 @@
 body {
 	margin: 0;
 	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-	
+	background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.377)),url("../images/landing-bg.jpg");
 	background-attachment: fixed;
 	background-size: cover	;
 }
